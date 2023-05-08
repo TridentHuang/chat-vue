@@ -1,77 +1,15 @@
 <template>
     <div id="app">
-        <div class="left">
-            <div>
-                <el-button @click="a=1" class="left-item">常规测试</el-button>
-            </div>
-            <div>
-                <el-button @click="a=2" class="left-item">JAVA代码修改</el-button>
-            </div>
-            <div>
-                <el-button @click="a=3" class="left-item">生成图片</el-button>
-            </div>
-            <div>
-                <el-button @click="a=4" class="left-item">音频转文字</el-button>
-            </div>
-        </div>
-        <div class="right">
-            <div class="item-one" v-show="a==1?true:false">
-                <div class="item-one-input">
-                    <el-input placeholder="请输入内容" v-model="input1" class="input-with-select">
-                        <el-button slot="append" icon="el-icon-search" @click="searchFirst"></el-button>
-                    </el-input>
+        <div class='container'>
+            <div class="divContent">
+                <div class="div1">
+                    <fly-header/>
                 </div>
-                <div><p class="text" v-html="msg"></p></div>
-            </div>
-            <div class="item-two" v-show="a==2?true:false">
-                <div class="item-two-input">
-                    <div>
-                        <el-input
-                                type="textarea"
-                                autosize
-                                placeholder="请输入内容"
-                                v-model="input2">
-                        </el-input>
-                    </div>
-                    <div>
-                        <el-button slot="append"
-                                   @click="search2"
-                                   style="width: 100%"
-                                   type="primary">
-                            搜索
-                        </el-button>
-                    </div>
+                <div class="div2">
+                    <fly-main/>
                 </div>
-                <div>
-                    {{msg}}
-                </div>
-            </div>
-            <div class="item-three" v-show="a==3?true:false">
-                <div class="item-one-input">
-                    <el-input placeholder="请输入内容" v-model="input3" class="input-with-select">
-                        <el-button slot="append" icon="el-icon-search" @click="search3"></el-button>
-                    </el-input>
-                </div>
-                <div class="item-three-img">
-                    <img :src="msg">
-                </div>
-            </div>
-            <div class="item-four" v-show="a==4?true:false">
-                <div class="item-one-input">
-                    <div class="upload-box">
-                        <el-upload
-                                class="upload-demo"
-                                ref="upload"
-                                action="#"
-                                :on-change="uploadChange"
-                                :auto-upload="false">
-                            <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-                        </el-upload>
-                    </div>
-
-                    <div>
-                        {{msg}}
-                    </div>
+                <div class="div3">
+                    <fly-footer/>
                 </div>
             </div>
         </div>
@@ -80,13 +18,16 @@
 
 <script>
 
-    import https from '@/api/https'
-
+    import FlyHeader from "./components/FlyHeader"
+    import FlyFooter from "./components/FlyFooter"
+    import FlyMain from "./components/FlyMain"
 
     export default {
         name: 'App',
         components: {
-            // HelloWorld
+            FlyMain,
+            FlyFooter,
+            FlyHeader
         },
 
         data() {
@@ -99,102 +40,33 @@
                 fileList: [],
             }
         },
-        methods: {
-            searchFirst() {
-                console.log(this.input1)
-                https.fetchPost('/chat', {"msg": this.input1}).then((res) => {
-                    console.log(res)
-                    this.msg = res.data.msg;
-                }).catch(err => {
-                        console.log(err)
-                    }
-                )
-            },
-            search2() {
-                console.log("input2")
-                https.fetchPost('/change_code', {"msg": this.input2}).then((res) => {
-                    console.log(res)
-                    this.msg = res.data.msg;
-                }).catch(err => {
-                        console.log(err)
-                    }
-                )
-            },
-            search3() {
-                console.log("input3")
-                https.fetchPost('/get_img', {"msg": this.input3}).then((res) => {
-                    console.log(res)
-                    this.msg = res.data.msg;
-                }).catch(err => {
-                        console.log(err)
-                    }
-                )
-            },
-            // handlePreview(file) {
-            //     console.log("test")
-            //     console.log(file);
-            // },
-            // submitUpload() {
-            //     this.fileList.forEach((item) => {
-            //         console.log(item.raw)
-            //     })
-            //     console.log(this.fileList)
-            // },
-
-            uploadChange(file) {
-                let formData = new FormData();
-                formData.append("file", file.raw);
-                https.uploadPost('/radio_text', formData).then((res) => {
-                    console.log(res)
-                    this.msg = res.data.msg;
-                }).catch(err => {
-                        console.log(err)
-                    }
-                )
-            }
-        }
+        methods: {}
     }
-
 
 </script>
 
-<style>
-    #app {
-        font-family: Avenir, Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-align: center;
-        color: #2c3e50;
-        margin-top: 60px;
-    }
 
-    .left {
-        float: left;
-        width: 200px;
-        border-right: solid gray;
-        padding-top: 20px;
-        height: 80vh;
-    }
+<style scoped lang='scss'>
 
-    .left > div {
-        height: 80px;
-    }
-
-    .right {
-        margin-left: 250px;
-    }
-
-    .item-one-input {
-        margin-right: 50px;
-    }
-
-    .item-two-input > :last-child {
-        margin-top: 20px;
+    .container {
+        height: 100vh;
         width: 100%;
-    }
 
-    .item-three-img {
-        margin-top: 20px;
+        .divContent {
+            height: 100%;
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .div2 {
+            flex: 1;
+        }
+
+        .div1, .div3 {
+            height: 60px;
+        }
     }
 
 </style>

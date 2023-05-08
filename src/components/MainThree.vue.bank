@@ -1,0 +1,90 @@
+<template>
+    <div>
+        <el-card class="box-card" :body-style="{ height: '100px' }">
+            <div class="ask">
+                <div></div>
+                <div>
+                    <el-form ref="audioForm" :model="audioForm" :rules="rules" label-width="70px">        <el-form-item prop="Audio">          <el-upload            ref="replaceUploader"            :file-list="fileList"            v-model="audioForm.voiceUrl"            class="avatar-uploader"            :headers="上传头"            :action="上传地址"             :limit="1"            :show-file-list="false"            :on-success="handleReplaceAvatarSuccess"            :on-progress="uploadVideoProcess"            :beforeUpload="beforeAvatarUpload">              <el-col :span="6">                <el-button size="small" type="primary" class="btnClick">点击上传</el-button>              </el-col>              <el-col :span="18">                <audio v-if="audioForm.voiceUrl !='' && !audioFlag" :src="audioForm.voiceUrl" controls> 你的浏览器不支持 <code>audio</code> 标签.</audio>                <i v-else-if="audioForm.voiceUrl =='' && !audioFlag" class="el-icon-plus avatar-uploader-icon"></i>                <el-progress v-if="audioFlag == true" type="line" v-bind:percentage="audioUploadPercent" style="margin-top:7px;"></el-progress>              </el-col>          </el-upload>        </el-form-item>
+
+
+                        <!--<el-input-->
+                            <!--type="textarea"-->
+                            <!--:rows="3"-->
+                            <!--placeholder="请输入内容"-->
+                            <!--v-model="textarea">-->
+                    <!--</el-input>-->
+
+                    <el-upload
+                            class="upload-demo"
+                            ref="upload"
+                            action="#"
+                            :on-change="uploadChange"
+                            :auto-upload="false">
+                        <!--<el-button slot="trigger" size="small" type="primary">上传文件</el-button>-->
+                        <el-button style="height: 70px;width: 100px"
+                                   type="primary"
+                                   @click="search">上传文件
+                        </el-button>
+                    </el-upload>
+                </div>
+                <div>
+
+                </div>
+            </div>
+        </el-card>
+
+        <div class="answer">
+            <el-card class="box-card" :body-style="{ height: '350px'}">
+                {{msg}}
+            </el-card>
+        </div>
+    </div>
+</template>
+
+<script>
+
+    // import https from '@/api/https'
+
+    export default {
+        name: "MainThree",
+        data() {
+            return {
+                textarea: '',
+                msg: ''
+            }
+        },
+        methods: {
+            uploadChange(file) {
+                console.log(file)
+                // let formData = new FormData();
+                // formData.append("file", file.raw);
+                // https.uploadPost('/radio_text', formData).then((res) => {
+                //     console.log(res)
+                //     this.msg = res.data.msg;
+                // }).catch(err => {
+                //         console.log(err)
+                //     }
+                // )
+            }
+        }
+
+    }
+</script>
+
+<style scoped lang="scss">
+    .ask {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        & > div:first-child {
+            width: 90%;
+        }
+
+    }
+
+    .answer {
+        margin-top: 20px;
+    }
+</style>
